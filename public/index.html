@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Blockly Editor</title>
+		<script src="../node_modules/blockly/blockly_compressed.js"></script>
+		<script src="../node_modules/blockly/blocks_compressed.js"></script>
+		<script src="../node_modules/blockly/msg/es.js"></script>
+		<script src="../node_modules/blockly/javascript_compressed.js"></script>
+		<script src="../src/generator.js" type="module"></script>
+	</head>
+	<body>
+		<div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+		<button onclick="showCode()">Show JavaScript</button>
+		<div id="area" style="heigth: 200px; width: 200px;"></div>
+		<script>
+			var toolbox = {
+				"kind": "categoryToolbox",
+			  "contents": [
+					{
+						'kind': "category",
+						'name': "Colores",
+						"colour": "20",
+						'contents': [
+							{
+								'kind': "block",
+								'type': "colour_picker"
+							},
+							{
+								'kind': "block",
+								'type': "colour_random"
+							},
+							{
+								'kind': "block",
+								'type': "colour_rgb"
+							},
+							{
+								'kind': "block",
+								'type': "colour_blend"
+							}
+						]
+					},
+					{
+						"kind": "category",
+						"name": "Listas",
+						"colour": "260",
+						"contents": [
+							{
+								"kind": "block",
+								"type": "lists_create_empty"
+							},
+							{
+								"kind": "block",
+								"type": "lists_create_with"
+							},
+							{
+								"kind": "block",
+								"type": "lists_repeat"
+							},
+							{
+								"kind": "block",
+								"type": "lists_isEmpty"
+							},
+							{
+								"kind": "block",
+								"type": "lists_indexOf"
+							},
+							{
+								"kind": "block",
+								"type": "lists_getIndex"
+							},
+							{
+								"kind": "block",
+								"type": "lists_setIndex"
+							},
+							{
+								"kind": "block",
+								"type": "lists_getSublist"
+							},
+							{
+								"kind": "block",
+								"type": "lists_split"
+							},
+							{
+								"kind": "block",
+								"type": "lists_reverse"
+							},
+							{
+								"kind": "category",
+								"name": "Listas_Numeros",
+								"colour": "260",
+								"contents": [
+									{
+										"kind": "block",
+										"type": "lists_length"
+									},
+									{
+										"kind": "block",
+										"type": "lists_sort"
+									}
+								]
+							}
+						]
+					},
+			  	{
+			      "kind": "category",
+			      "name": "Logica",
+						"colour": "200",
+			      "contents": [
+			        {
+			          "kind": "block",
+			          "type": "controls_if"
+			        },
+							{
+								"kind": "block",
+								"type": "logic_boolean"
+							},
+							{
+								"kind": "block",
+								"type": "controls_ifelse"
+							},
+							{
+								"kind": "block",
+								"type": "logic_ternary"
+							},
+							{
+								"kind": "block",
+								"type": "logic_null"
+							},
+							{
+								"kind": "block",
+								"type": "logic_negate"
+							},
+							{
+								"kind": "category",
+								"name": "Comparadores",
+								"colour": "200",
+								"contents": [
+									{
+										"kind": "block",
+										"type": "logic_compare"
+									},
+									{
+										"kind": "block",
+										"type": "logic_operation"
+									}
+								]
+							}
+			      ]
+			  	},
+					{
+						"kind": "category",
+						"name": "Bucles",
+						"colour": "120",
+						"contents": [
+							{
+								"kind": "block",
+								"type": "controls_repeat_ext"
+							},
+							{
+								"kind": "block",
+								"type": "controls_repeat"
+							},
+							{
+								"kind": "block",
+								"type": "controls_for"
+							},
+							{
+								"kind": "block",
+								"type": "controls_forEach"
+							},
+							{
+								"kind": "block",
+								"type": "controls_flow_statements"
+							},
+							{
+								"kind": "block",
+								"type": "controls_whileUntil"
+							}
+						]
+					},
+					{
+						"kind": "category",
+						"name": "Numeros",
+						"colour": "230",
+						"contents": [
+							{
+								"kind": "block",
+								"type": "math_number"
+							},
+							{
+								"kind": "block",
+								"type": "math_random_int"
+							},
+							{
+								"kind": "block",
+								"type": "math_random_float"
+							},
+							{
+								"kind": "category",
+								"name": "Operaciones",
+								"colour": "230",
+								"contents": [
+									{
+										"kind": "block",
+										"type": "math_arithmetic"
+									},
+									{
+										"kind": "block",
+										"type": "math_on_list"
+									},
+									{
+										"kind": "block",
+										"type": "math_modulo"
+									},
+									{
+										"kind": "block",
+										"type": "math_number_property"
+									},
+									{
+										"kind": "block",
+										"type": "math_trig"
+									}
+								]
+							},
+							{
+								"kind": "category",
+								"name": "Raiz",
+								"colour": "230",
+								"contents": [
+									{
+										"kind": "block",
+										"type": "math_single"
+									},
+									{
+										"kind": "block",
+										"type": "math_constant"
+									},
+									{
+										"kind": "block",
+										"type": "math_round"
+									}
+								]
+							},
+							{
+								"kind": "category",
+								"name": "Extras",
+								"colour": "230",
+								"contents": [
+									{
+										"kind": "block",
+										"type": "math_constrain"
+									},
+									{
+										"kind": "block",
+										"type": "math_atan2"
+									}
+								]
+							}
+						]
+					},
+					{
+						"kind": "category",
+						"name": "Variables",
+						"categorystyle": "variable_category",
+						"custom": "VARIABLE"
+					},
+					{
+						"kind": "category",
+						"name": "Texto",
+						"colour": "160",
+						"contents": [
+							{
+								"kind": "block",
+								"type": "text"
+							},
+							{
+								"kind": "block",
+								"type": "text_multiline"
+							},
+							{
+								"kind": "block",
+								"type": "text_join"
+							},
+							{
+								"kind": "category",
+								"name": "Operaciones",
+								"colour": "160",
+								"contents": [
+									{
+										"kind": "block",
+										"type": "text_append"
+									},
+									{
+										"kind": "block",
+										"type": "text_length"
+									},
+									{
+										"kind": "block",
+										"type": "text_isEmpty"
+									},
+									{
+										"kind": "block",
+										"type": "text_indexOf"
+									},
+									{
+										"kind": "block",
+										"type": "text_charAt"
+									},
+									{
+										"kind": "block",
+										"type": "text_getSubstring"
+									},
+									{
+										"kind": "block",
+										"type": "text_count"
+									},
+									{
+										"kind": "block",
+										"type": "text_replace"
+									},
+									{
+										"kind": "block",
+										"type": "text_reverse"
+									}
+								]
+							},
+							{
+								"kind": "category",
+								"name": "Acciones de texto",
+								"colour": "160",
+								"contents": [
+									{
+										"kind": "block",
+										"type": "text_prompt"
+									},
+									{
+										"kind": "block",
+										"type": "text_prompt_ext"
+									},
+									{
+										"kind": "block",
+										"type": "text_print"
+									},
+									{
+										"kind": "block",
+										"type": "text_trim"
+									}
+								]
+							}
+						]
+					},
+					{
+						"kind": "category",
+						"name": "Funciones",
+						"categorystyle": "procedure_category",
+						"custom": "PROCEDURE"
+					},
+					{
+						"kind": "category",
+						"name": "test",
+						"contents": [
+							{
+								"kind": "block",
+								"type": "library"
+							}
+						]
+					}
+				]
+			}
+			
+			var workspace = Blockly.inject("blocklyDiv", {
+				toolbox: toolbox
+			});
+	
+			function showCode() {
+	      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+	      var code = Blockly.JavaScript.workspaceToCode(workspace);
+	      document.getElementById("area").innerText = code
+	    }
+		</script>
+	</body>
+</html>
